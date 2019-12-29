@@ -322,15 +322,20 @@ server <- function(input, output, session) {
   # ------------------ tab oracle ------------------
   # list_strategy <- reactive(server_data$list_strategy)
   output$plot_metrics <- renderPlotly(
-    ggplotly(plot_metrics_expert(server_data$test_data,
-                                 server_data$list_expert,
-                                 server_data$orig_expert$rmse))
+    if (!is.null(input$list_expert)) {
+      ggplotly(plot_metrics_expert(server_data$test_data,
+                                   server_data$list_expert,
+                                   server_data$orig_expert$rmse))
+    }
   )
 
   output$plot_compare_strategy <- renderPlotly(
-    ggplotly(plot_compare(server_data$test_data,
-                          server_data$list_expert,
-                          server_data$orig_expert$rmse))
+    if (!is.null(server_data$list_expert)) {
+      ggplotly(plot_compare(server_data$test_data,
+                            server_data$list_expert,
+                            server_data$orig_expert$rmse))
+    }
+
   )
 
   # ------ Params tab ---------
@@ -390,44 +395,70 @@ server <- function(input, output, session) {
     )
 
   output$cb_mix <- renderPlot({
-    plot_mix(server_data$test_data$Load, server_data$orig_expert$forecast,
-             server_data$list_expert$cb)
+    if (!is.null(server_data$list_expert$cb)) {
+      plot_mix(server_data$test_data$Load, server_data$orig_expert$forecast,
+               server_data$list_expert$cb)
+    }
   }, width = 'auto')
+
   output$rw_mix <- renderPlot({
-    plot_mix(server_data$test_data$Load, server_data$orig_expert$forecast,
-             server_data$list_expert$rw)
+    if (!is.null(server_data$list_expert$rw)) {
+      plot_mix(server_data$test_data$Load,
+               server_data$orig_expert$forecast,
+               server_data$list_expert$rw)
+    }
   }, width = 'auto')
+
   output$bagg_mix <- renderPlot({
-    plot_mix(server_data$test_data$Load, server_data$orig_expert$forecast,
-             server_data$list_expert$bagg)
+    if (!is.null(server_data$list_expert$bagg)) {
+      plot_mix(server_data$test_data$Load,
+               server_data$orig_expert$forecast,
+               server_data$list_expert$bagg)
+    }
   }, width = 'auto')
+
   output$boost_mix <- renderPlot({
-    plot_mix(server_data$test_data$Load, server_data$orig_expert$forecast,
-             server_data$list_expert$boost)
+    if (!is.null(server_data$list_expert$boost)) {
+      plot_mix(server_data$test_data$Load,
+               server_data$orig_expert$forecast,
+               server_data$list_expert$boost)
+    }
   }, width = 'auto')
+
   output$qgam_mix <- renderPlot({
-    plot_mix(server_data$test_data$Load, server_data$orig_expert$forecast,
-             server_data$list_expert$qgam)
+    if (!is.null(server_data$list_expert$qgam)) {
+      plot_mix(server_data$test_data$Load,
+               server_data$orig_expert$forecast,
+               server_data$list_expert$qgam)
+    }
   }, width = 'auto')
+
   output$gamlss_mix <- renderPlot({
-    plot_mix(server_data$test_data$Load, server_data$orig_expert$forecast,
-             server_data$list_expert$gamlss)
+    if (!is.null(server_data$list_expert$gamlss)) {
+      plot_mix(server_data$test_data$Load,
+               server_data$orig_expert$forecast,
+               server_data$list_expert$gamlss)
+    }
   }, width = 'auto')
 
   output$ml_mix <- renderPlot({
     # ml_exp <- as.matrix(do.call(cbind,
     #                             server_data$list_expert$ml_expert))
-    plot_mix(server_data$test_data$Load, server_data$orig_expert$forecast,
-             server_data$list_expert$ml_expert)
+    if (!is.null(server_data$list_expert$ml_expert)) {
+      plot_mix(server_data$test_data$Load,
+               server_data$orig_expert$forecast,
+               server_data$list_expert$ml_expert)
+    }
   }, width = 'auto')
 
   output$ml_mix_no_gam <- renderPlot({
     # ml_exp <- as.matrix(do.call(cbind,
     #                             server_data$list_expert$ml_expert))
-    plot_mix_no_gam(server_data$test_data$Load,
-                    server_data$list_expert$ml_expert)
+    if (!is.null(server_data$list_expert$ml_expert)) {
+      plot_mix_no_gam(server_data$test_data$Load,
+                      server_data$list_expert$ml_expert)
+    }
   }, width = 'auto')
-
 
 
   # ------ Plot prediction tab ---------
@@ -476,42 +507,65 @@ server <- function(input, output, session) {
   )
 
   output$cb_pred_mix <- renderPlotly({
-    plot_prediction(server_data$test_data, server_data$orig_expert$forecast,
-             server_data$list_expert$cb)
+    if (!is.null(server_data$list_expert$cb)) {
+      plot_prediction(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$cb)
+    }
   })
   output$rw_pred_mix <- renderPlotly({
-    plot_prediction(server_data$test_data, server_data$orig_expert$forecast,
-             server_data$list_expert$rw)
+    if (!is.null(server_data$list_expert$rw)) {
+      plot_prediction(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$rw)
+    }
   })
   output$bagg_pred_mix <- renderPlotly({
-    plot_prediction(server_data$test_data, server_data$orig_expert$forecast,
-             server_data$list_expert$bagg)
+    if (!is.null(server_data$list_expert$bagg)) {
+      plot_prediction(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$bagg)
+    }
   })
   output$boost_pred_mix <- renderPlotly({
-    plot_prediction(server_data$test_data, server_data$orig_expert$forecast,
-             server_data$list_expert$boost)
+    if (!is.null(server_data$list_expert$boost)) {
+      plot_prediction(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$boost)
+    }
   })
   output$qgam_pred_mix <- renderPlotly({
-    plot_prediction(server_data$test_data, server_data$orig_expert$forecast,
-             server_data$list_expert$qgam)
+    if (!is.null(server_data$list_expert$qgam)) {
+      plot_prediction(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$qgam)
+    }
   })
   output$gamlss_pred_mix <- renderPlotly({
-    plot_prediction(server_data$test_data, server_data$orig_expert$forecast,
-             server_data$list_expert$gamlss)
+    if (!is.null(server_data$list_expert$gamlss)) {
+      plot_prediction(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$gamlss)
+    }
   })
 
   output$ml_pred_mix <- renderPlotly({
     # ml_exp <- as.matrix(do.call(cbind,
     #                             server_data$list_expert$ml_expert))
-    plot_prediction(server_data$test_data, server_data$orig_expert$forecast,
-                    server_data$list_expert$ml_expert)
+    if (!is.null(server_data$list_expert$ml_expert)) {
+      plot_prediction(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$ml_expert)
+    }
   })
 
   output$ml_pred_mix_no_gam <- renderPlotly({
     # ml_exp <- as.matrix(do.call(cbind,
     #                             server_data$list_expert$ml_expert))
-    plot_prediction(data_test = server_data$test_data,
-                    experts = server_data$list_expert$ml_expert)
+    if (!is.null(server_data$list_expert$ml_expert)) {
+      plot_prediction(data_test = server_data$test_data,
+                      experts = server_data$list_expert$ml_expert)
+    }
   })
 
 
@@ -519,7 +573,8 @@ server <- function(input, output, session) {
   output$plot_res_by_group <- renderUI({
     if (!is.null(input$expert_choice)) {
       tabs_res <- lapply(1:length(tabs.plot_res), function(i) {
-        tabPanel(tabs.plot_res[[i]]$Title, tabs.plot_res[[i]]$Content)
+        tabPanel(tabs.plot_res[[i]]$Title,
+                 tabs.plot_res[[i]]$Content)
       })
       do.call(tabBox, c(tabs_res, width = 12, height = 600))
     }
@@ -561,42 +616,65 @@ server <- function(input, output, session) {
   )
 
   output$cb_res_mix <- renderPlotly({
-    plot_residual(server_data$test_data, server_data$orig_expert$forecast,
-                    server_data$list_expert$cb)
+    if (!is.null(server_data$list_expert$cb)) {
+      plot_residual(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$cb)
+    }
   })
   output$rw_res_mix <- renderPlotly({
-    plot_residual(server_data$test_data, server_data$orig_expert$forecast,
-                    server_data$list_expert$rw)
+    if (!is.null(server_data$list_expert$rw)) {
+      plot_residual(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$rw)
+    }
   })
   output$bagg_res_mix <- renderPlotly({
-    plot_residual(server_data$test_data, server_data$orig_expert$forecast,
-                    server_data$list_expert$bagg)
+    if (!is.null(server_data$list_expert$bagg)) {
+      plot_residual(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$bagg)
+    }
   })
   output$boost_res_mix <- renderPlotly({
-    plot_residual(server_data$test_data, server_data$orig_expert$forecast,
-                    server_data$list_expert$boost)
+    if (!is.null(server_data$list_expert$boost)) {
+      plot_residual(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$boost)
+    }
   })
   output$qgam_res_mix <- renderPlotly({
-    plot_residual(server_data$test_data, server_data$orig_expert$forecast,
-                    server_data$list_expert$qgam)
+    if (!is.null(server_data$list_expert$qgam)) {
+      plot_residual(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$qgam)
+    }
   })
   output$gamlss_res_mix <- renderPlotly({
-    plot_residual(server_data$test_data, server_data$orig_expert$forecast,
-                    server_data$list_expert$gamlss)
+    if (!is.null(server_data$list_expert$gamlss)) {
+      plot_residual(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$gamlss)
+    }
   })
 
   output$ml_res_mix <- renderPlotly({
     # ml_exp <- as.matrix(do.call(cbind,
     #                             server_data$list_expert$ml_expert))
-    plot_residual(server_data$test_data, server_data$orig_expert$forecast,
-                  server_data$list_expert$ml_expert)
+    if (!is.null(server_data$list_expert$ml_expert)) {
+      plot_residual(server_data$test_data,
+                      server_data$orig_expert$forecast,
+                      server_data$list_expert$ml_expert)
+    }
   })
 
   output$ml_res_mix_no_gam <- renderPlotly({
     # ml_exp <- as.matrix(do.call(cbind,
     #                             server_data$list_expert$ml_expert))
-    plot_residual(data_test = server_data$test_data,
-                    experts = server_data$list_expert$ml_expert)
+    if (!is.null(server_data$list_expert$ml_expert)) {
+      plot_residual(data_test = server_data$test_data,
+                      experts = server_data$list_expert$ml_expert)
+    }
   })
 
 
@@ -615,53 +693,56 @@ server <- function(input, output, session) {
   })
 
   output$res <- renderTable({
-    experts <- do.call(cbind, server_data$list_expert)
-    experts <- cbind(experts, server_data$orig_expert$forecast)
-    colnames(experts)[ncol(experts)] <- 'gam'
-    rmse <- apply(experts, 2, function(x) {
-      rmse(server_data$test_data$Load, x)
-    })
-    mape <- apply(experts, 2, function(x) {
-      round(mape(server_data$test_data$Load, x) * 100, 2)
-    })
-    res <- t(rbind(rmse, mape))
-    selected <- c('gam', 'xgboost', 'svmRadial', 'svmPoly', 'ppr')
-    res <- res[rownames(res) %in% selected, ]
-    # ml mix
-    ml_exp <- server_data$list_expert$ml_expert
-    mix_ml_exp <- mixture(Y = server_data$test_data$Load,
-                          experts = ml_exp,
-                          model = 'MLpol',
-                          loss.gradient = T)
-    res <- rbind(res, data.frame(rmse = rmse(server_data$test_data$Load,
-                                     mix_ml_exp$prediction),
-                mape = round(100 * mape(server_data$test_data$Load,
-                            mix_ml_exp$prediction)),
-                row.names = 'ml_mix'))
+    if (!is.null(server_data$list_expert$ml_expert)) {
+      experts <- do.call(cbind, server_data$list_expert)
+      experts <- cbind(experts, server_data$orig_expert$forecast)
+      colnames(experts)[ncol(experts)] <- 'gam'
+      rmse <- apply(experts, 2, function(x) {
+        rmse(server_data$test_data$Load, x)
+      })
+      mape <- apply(experts, 2, function(x) {
+        round(mape(server_data$test_data$Load, x) * 100, 2)
+      })
+      res <- t(rbind(rmse, mape))
+      selected <- c('gam', 'xgboost', 'svmRadial', 'svmPoly', 'ppr')
+      res <- res[rownames(res) %in% selected, ]
+      # ml mix
+      ml_exp <- server_data$list_expert$ml_expert
+      mix_ml_exp <- mixture(Y = server_data$test_data$Load,
+                            experts = ml_exp,
+                            model = 'MLpol',
+                            loss.gradient = T)
+      res <- rbind(res, data.frame(rmse = rmse(server_data$test_data$Load,
+                                               mix_ml_exp$prediction),
+                                   mape = round(100 * mape(server_data$test_data$Load,
+                                                           mix_ml_exp$prediction)),
+                                   row.names = 'ml_mix'))
 
-    # all mix
-    all_exp <- do.call(cbind, server_data$list_expert)
-    mix_all_exp <- mixture(Y = server_data$test_data$Load,
-                          experts = all_exp,
-                          model = 'MLpol',
-                          loss.gradient = T)
-    res <- rbind(res, data.frame(rmse = rmse(server_data$test_data$Load,
-                                             mix_all_exp$prediction),
-                                 mape = round(100 * mape(server_data$test_data$Load,
-                                             mix_all_exp$prediction)),
-                                 row.names = 'strategy_mix'))
+      # all mix
+      all_exp <- do.call(cbind, server_data$list_expert)
+      mix_all_exp <- mixture(Y = server_data$test_data$Load,
+                             experts = all_exp,
+                             model = 'MLpol',
+                             loss.gradient = T)
+      res <- rbind(res, data.frame(rmse = rmse(server_data$test_data$Load,
+                                               mix_all_exp$prediction),
+                                   mape = round(100 * mape(server_data$test_data$Load,
+                                                           mix_all_exp$prediction)),
+                                   row.names = 'strategy_mix'))
 
-    # strategy mix
-    exp <- all_exp[, - c(1:4)]
-    mix_exp <- mixture(Y = server_data$test_data$Load,
-                       experts = exp,
-                       model = 'MLpol',
-                       loss.gradient = T)
-    res <- rbind(res, data.frame(rmse = rmse(server_data$test_data$Load,
-                                             mix_exp$prediction),
-                                 mape = round(100 * mape(server_data$test_data$Load,
-                                                         mix_exp$prediction)),
-                                 row.names = 'all_mix'))
+      # strategy mix
+      exp <- all_exp[, - c(1:4)]
+      mix_exp <- mixture(Y = server_data$test_data$Load,
+                         experts = exp,
+                         model = 'MLpol',
+                         loss.gradient = T)
+      res <- rbind(res, data.frame(rmse = rmse(server_data$test_data$Load,
+                                               mix_exp$prediction),
+                                   mape = round(100 * mape(server_data$test_data$Load,
+                                                           mix_exp$prediction)),
+                                   row.names = 'all_mix'))
+      res
+    }
   }, rownames = TRUE)
   # ------------------ end session ------------------
   session$onSessionEnded(function() {
